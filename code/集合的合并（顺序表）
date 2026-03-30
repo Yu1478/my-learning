@@ -1,0 +1,58 @@
+# 集合的合并
+
+##方法一：使用顺序表
+#define MaxList 10
+#include<stdio.h>
+typedef struct 
+{
+    int elem[MaxList];
+    int length;
+}L;
+void inputList(L*A){
+     int i=1;
+     int j=0;
+    while(i!=0){
+       scanf("%d",&A->elem[j]);
+       scanf("%d",&i);
+       j++; 
+     }
+     A.length=j;
+
+}
+
+
+int find(L*A,int e){
+      int i=0;
+      n= A->length;
+      for(i;i<n;i++){
+           if(A->elem[i]==e)
+                  return 1;
+       }
+       return 0;
+}
+void emergeList(L*A,L*B){
+     int n=B->length;
+      int m=A->length;
+      for(int i=0;i<n-1;i++){
+           if(find(A,B->elem[i])==0).      //注意，在emergeList中A已经是指针，所以find里面不用&A
+               A->elem[m]=B->elem[i];
+               m++;
+               A->length++;
+            }
+           
+}
+
+int main(){
+     L A,B;
+     inputList(&A);
+      inputList(&B);
+    emergeList(&A,&B);
+    return 0;  
+ 
+}
+
+##本次总结：
+1、函数的传参，是数（不会改变已有链表）还是指针（&Ａ）一定要弄清
+2、结构体变量：Ａ.length 
+  结构体指针：A.->length
+3、typdef的使用，
