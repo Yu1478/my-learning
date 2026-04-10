@@ -1,0 +1,108 @@
+#总结：
+## 1:反转的一般步骤
+        nex = cur->next;
+        cur->next = pre;
+        pre = cur;
+        cur = nex;
+##2、区间反转注意从哪个点开始，并且要保留起始点的前一节点（为了最后的链接）；注意反转的次数（a-b+1次），反转结束时pre指向b
+##3、虚拟头节点的应用 ：虚拟头节点dummy一般用Node类型，如果要用NOde*类型则要分配内存
+##4、虽然起始点指向了NULL，但p1依旧指向起始点，二者间依旧有联系
+
+
+
+
+
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node{
+    int data;
+    struct Node* next;
+}Node;
+
+// 创建链表（尾插法）
+Node* createL(){
+    Node* head = NULL;
+    Node* tail = NULL;
+    int x;
+
+    while(scanf("%d", &x) && x != -1){
+        Node* node = (Node*)malloc(sizeof(Node));
+        node->data = x;
+        node->next = NULL;
+
+        if(head == NULL){
+            head = tail = node;
+        }else{
+            tail->next = node;
+            tail = node;
+        }
+    }
+    return head;
+}
+
+// 反转区间 [a, b]
+Node* inverseL(Node* L, int a, int b){
+
+    Node dummy;
+    dummy.next = L;
+
+    Node* p1 = &dummy;
+
+    // 1️⃣ 找到 a-1 位置
+    for(int i = 1; i < a; i++){
+        p1 = p1->next;
+    }
+
+    // 2️⃣ 从 a 开始反转
+    Node* cur = p1->next;   // a
+    Node* pre = NULL;
+    Node* nex = NULL;
+
+    // 反转 b-a+1 个节点
+    for(int i = 0; i <= b - a; i++){
+        nex = cur->next;
+        cur->next = pre;
+        pre = cur;
+        cur = nex;
+    }
+
+    // 3️⃣ 拼接
+    Node* p2 = p1->next;   // 原来的 a（现在是尾）
+    p1->next = pre;        // 接上反转后的头
+    p2->next = cur;        // 接上后半部分
+
+    return dummy.next;
+}
+
+// 输出链表
+void printList(Node* head){
+    while(head){
+        printf("%d", head->data);
+        if(head->next) printf(" ");
+        head = head->next;
+    }
+}
+
+int main(){
+    Node* L = createL();
+
+    int a, b;
+    scanf("%d %d", &a, &b);
+
+    L = inverseL(L, a, b);
+
+    printList(L);
+
+    return 0;
+}
+
+
+
+
+
+
