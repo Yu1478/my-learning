@@ -103,6 +103,32 @@ int main(){
 
 
 
+##找到链表中点再进行反转
+
+Node* slow = L1;
+Node* fast = L1;
+
+while(fast && fast->next){
+    slow = slow->next;
+    fast = fast->next->next;
+}。                                  slow即为（后半段起点）
 
 
+Node* inverse(Node* head){
+    Node* pre = NULL;   // 前一个节点（反转后的前驱）
+    Node* cur = head;   // 当前节点
+    Node* nex = NULL;   // 临时保存下一个节点
 
+    while(cur){
+        nex = cur->next;   // 1️⃣ 先保存后面节点（防止断链）
+
+        cur->next = pre;   // 2️⃣ 反转指针
+
+        pre = cur;         // 3️⃣ pre 前移
+        cur = nex;         // 4️⃣ cur 前移
+    }
+
+    return pre;   // 新头节点
+}
+
+inverse（slow）；
